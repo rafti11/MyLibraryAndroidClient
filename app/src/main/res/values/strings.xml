@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My Library App</string>
+<!--    <string name="app_name">My Library App</string>-->
+    <string name="isbn">isbn</string>
+    <string name="title">title</string>
+    <string name="pubDate">publication Date</string>
+    <string name="pages">pages</string>
+    <string name="language">language</string>
+    <string name="author">author</string>
+</resources>
