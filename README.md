@@ -4,4 +4,6 @@ todo:
 - remove: android:usesCleartextTraffic="true" from manifest.
 
 have:
-- dagger hilt:
+- dagger hilt
+- retrofit
+- clean architecture

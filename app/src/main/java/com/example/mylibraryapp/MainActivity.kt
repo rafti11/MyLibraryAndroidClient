@@ -13,6 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.example.mylibraryapp.di.AppModule
 import com.example.mylibraryapp.domain.model.Author
+import com.example.mylibraryapp.presentation.author.AuthorScreen
+import com.example.mylibraryapp.presentation.author.AuthorScreen2
 import com.example.mylibraryapp.presentation.book.AddBookScreen
 import com.example.mylibraryapp.presentation.theme.MyLibraryAppTheme
 import kotlinx.coroutines.launch
@@ -28,24 +30,25 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 //                    Greeting("Android")
-                    AddBookScreen()
+//                    AddBookScreen()
+                    AuthorScreen2()
                 }
             }
         }
 
-
-        val api = AppModule.provideLibraryAPI()
-        val repository = AppModule.provideMyLibraryRepository(api)
-
-        println(api.toString())
-        lifecycleScope.launch {
-
-            repository.deleteAuthor(4)
-
-            val data = repository.getAllAuthor()
-
-            println(data)
-        }
+//
+//        val api = AppModule.provideLibraryAPI()
+//        val repository = AppModule.provideMyLibraryRepository(api)
+//
+//        println(api.toString())
+//        lifecycleScope.launch {
+//
+////            repository.deleteAuthor(4)
+//
+//            val data = repository.getAllAuthor()
+//
+//            println(data)
+//        }
 
 
 
