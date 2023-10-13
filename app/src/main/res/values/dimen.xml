@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_screen_padding">16dp</dimen>
+    <dimen name="default_card_elevation">4dp</dimen>
+    <dimen name="default_header">30dp</dimen>
+    <dimen name="header_half">15dp</dimen>
+    <dimen name="result_start_padding">8dp</dimen>
+    <dimen name="item_start_padding">10dp</dimen>
+</resources>

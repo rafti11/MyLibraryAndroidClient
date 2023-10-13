@@ -10,15 +10,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mylibraryapp.di.AppModule
-import com.example.mylibraryapp.domain.model.Author
-import com.example.mylibraryapp.presentation.author.AuthorScreen
-import com.example.mylibraryapp.presentation.author.AuthorScreen2
-import com.example.mylibraryapp.presentation.book.AddBookScreen
+import com.example.mylibraryapp.domain.usecase.author.GetAllAuthorsUseCase
+import com.example.mylibraryapp.presentation.author.listscreen.AuthorListViewModel
+import com.example.mylibraryapp.presentation.author.listscreen.NewAuthorScreen
 import com.example.mylibraryapp.presentation.theme.MyLibraryAppTheme
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +31,21 @@ class MainActivity : ComponentActivity() {
                 ) {
 //                    Greeting("Android")
 //                    AddBookScreen()
-                    AuthorScreen2()
+//                    AuthorScreen2()
+                    NewAuthorScreen()
+
                 }
             }
         }
 
+
+
+
+
+
+//        val list = listOf<String>("manolo", "pepe", "manuel", "perez", "juan", "amante")
+//
+//        println(list.filter { it.contains("man") })
 //
 //        val api = AppModule.provideLibraryAPI()
 //        val repository = AppModule.provideMyLibraryRepository(api)

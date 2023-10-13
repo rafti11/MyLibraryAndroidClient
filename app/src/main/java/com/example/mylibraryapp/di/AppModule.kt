@@ -19,7 +19,7 @@ object AppModule {
     @Singleton
     fun provideLibraryAPI(): LibraryAPI {
         return Retrofit.Builder()
-            .baseUrl("http://IP:8080/api/")
+            .baseUrl("http://10.10.2.12:8080/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(LibraryAPI::class.java)
