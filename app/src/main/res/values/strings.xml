@@ -12,8 +12,14 @@
     <string name="label_input_author_name">Author name</string>
     <string name="label_button_submit">Submit</string>
     <string name="label_results">results shown.</string>
+
     <!-- Author -->
     <string name="search_author">Search Author</string>
     <string name="label_author_list">Author List</string>
     <!-- Author END -->
+
+    <!-- Book -->
+    <string name="search_book">Search Book</string>
+    <string name="label_book_list">Book List</string>
+    <!-- Book END -->
 </resources>

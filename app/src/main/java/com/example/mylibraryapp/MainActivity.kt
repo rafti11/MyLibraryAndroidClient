@@ -10,13 +10,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mylibraryapp.di.AppModule
 import com.example.mylibraryapp.domain.usecase.author.GetAllAuthorsUseCase
 import com.example.mylibraryapp.presentation.author.listscreen.AuthorListViewModel
 import com.example.mylibraryapp.presentation.author.listscreen.NewAuthorScreen
+import com.example.mylibraryapp.presentation.book.common.BookItem
+import com.example.mylibraryapp.presentation.book.common.TestGrid
+import com.example.mylibraryapp.presentation.book.listscreen.BookScreen
 import com.example.mylibraryapp.presentation.theme.MyLibraryAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -32,7 +37,10 @@ class MainActivity : ComponentActivity() {
 //                    Greeting("Android")
 //                    AddBookScreen()
 //                    AuthorScreen2()
-                    NewAuthorScreen()
+//                    NewAuthorScreen()
+//                    BookItem()
+//                    TestGrid()
+                    BookScreen()
 
                 }
             }
@@ -55,7 +63,7 @@ class MainActivity : ComponentActivity() {
 //
 ////            repository.deleteAuthor(4)
 //
-//            val data = repository.getAllAuthor()
+//            val data = repository.getAllBooks()
 //
 //            println(data)
 //        }

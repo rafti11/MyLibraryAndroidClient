@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mylibraryapp.R
 
+// Todo: Delete this file
 @Preview
 @Composable
 fun AuthorEntryItem() {

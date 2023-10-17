@@ -1,6 +1,7 @@
 package com.example.mylibraryapp.data.remote
 
 import com.example.mylibraryapp.data.remote.dto.AuthorDTO
+import com.example.mylibraryapp.data.remote.dto.BookDTO
 import com.example.mylibraryapp.domain.model.Author
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -10,6 +11,13 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface LibraryAPI {
+
+    // ----- BOOK -----
+
+    @GET("book/all")
+    suspend fun getAllBooks() : List<BookDTO>
+
+    // ----- BOOK END -----
 
     // ----- AUTHOR -----
 

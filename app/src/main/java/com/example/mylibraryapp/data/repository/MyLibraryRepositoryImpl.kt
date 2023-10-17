@@ -2,6 +2,7 @@ package com.example.mylibraryapp.data.repository
 
 import com.example.mylibraryapp.data.remote.LibraryAPI
 import com.example.mylibraryapp.data.remote.dto.AuthorDTO
+import com.example.mylibraryapp.data.remote.dto.BookDTO
 import com.example.mylibraryapp.domain.model.Author
 import com.example.mylibraryapp.domain.repository.MyLibraryRepository
 import javax.inject.Inject
@@ -9,6 +10,16 @@ import javax.inject.Inject
 class MyLibraryRepositoryImpl @Inject constructor(
     private val api: LibraryAPI
 ) : MyLibraryRepository {
+
+    // ----- BOOK -----
+
+    override suspend fun getAllBooks(): List<BookDTO> {
+        return api.getAllBooks()
+    }
+
+    // ----- BOOK END -----
+
+    // ----- AUTHOR -----
 
     override suspend fun getAllAuthor(): List<AuthorDTO> {
         return api.getAllAuthor()
@@ -30,5 +41,6 @@ class MyLibraryRepositoryImpl @Inject constructor(
         api.deleteAuthor(id)
     }
 
+    // ----- AUTHOR END -----
 
 }
