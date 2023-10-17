@@ -22,4 +22,11 @@
     <string name="search_book">Search Book</string>
     <string name="label_book_list">Book List</string>
     <!-- Book END -->
+
+    <!-- Loan -->
+    <string name="search_loan">Search Loan</string>
+    <string name="label_loan_list">Loan List</string>
+    <string name="label_loan_date_out">Date Out:</string>
+    <string name="label_loan_date_returned">Date Returned:</string>
+    <!-- Loan END -->
 </resources>

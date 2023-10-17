@@ -5,15 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mylibraryapp.common.Resource
-import com.example.mylibraryapp.di.AppModule
-import com.example.mylibraryapp.domain.model.Author
-import com.example.mylibraryapp.domain.usecase.author.GetAllAuthorsUseCase
 import com.example.mylibraryapp.domain.usecase.book.GetAllBooksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,11 +20,11 @@ class BookListViewModel @Inject constructor(
     val state: State<BookListState> = _state
 
     init {
-        getAllAuthor()
+        getAllBooks()
     }
 
 
-    private fun getAllAuthor() {
+    private fun getAllBooks() {
 
         getAllBooksUseCase().onEach { resource ->
 

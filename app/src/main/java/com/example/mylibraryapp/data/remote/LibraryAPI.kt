@@ -2,6 +2,7 @@ package com.example.mylibraryapp.data.remote
 
 import com.example.mylibraryapp.data.remote.dto.AuthorDTO
 import com.example.mylibraryapp.data.remote.dto.BookDTO
+import com.example.mylibraryapp.data.remote.dto.LoanDTO
 import com.example.mylibraryapp.domain.model.Author
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -18,6 +19,13 @@ interface LibraryAPI {
     suspend fun getAllBooks() : List<BookDTO>
 
     // ----- BOOK END -----
+
+    // ----- LOAN -----
+
+    @GET("loan/client/{id}")
+    suspend fun getAllLoansByClientID(@Path("id") id: Int) : List<LoanDTO>
+
+    // ----- LOAN END -----
 
     // ----- AUTHOR -----
 

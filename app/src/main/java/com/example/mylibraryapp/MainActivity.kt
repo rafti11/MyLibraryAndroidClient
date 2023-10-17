@@ -19,6 +19,7 @@ import com.example.mylibraryapp.presentation.author.listscreen.NewAuthorScreen
 import com.example.mylibraryapp.presentation.book.common.BookItem
 import com.example.mylibraryapp.presentation.book.common.TestGrid
 import com.example.mylibraryapp.presentation.book.listscreen.BookScreen
+import com.example.mylibraryapp.presentation.loan.listscreen.LoanScreen
 import com.example.mylibraryapp.presentation.theme.MyLibraryAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -40,8 +41,8 @@ class MainActivity : ComponentActivity() {
 //                    NewAuthorScreen()
 //                    BookItem()
 //                    TestGrid()
-                    BookScreen()
-
+//                    BookScreen()
+                    LoanScreen()
                 }
             }
         }
