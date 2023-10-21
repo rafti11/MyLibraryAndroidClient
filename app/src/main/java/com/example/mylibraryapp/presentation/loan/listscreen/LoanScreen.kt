@@ -28,6 +28,7 @@ import com.example.mylibraryapp.presentation.book.common.BookItem2
 import com.example.mylibraryapp.presentation.common.ItemList
 import com.example.mylibraryapp.presentation.common.LabelCount
 import com.example.mylibraryapp.presentation.common.SearchBarCard
+import com.example.mylibraryapp.presentation.common.SearchBarCustom
 import com.example.mylibraryapp.presentation.common.TitleLabel
 import com.example.mylibraryapp.presentation.loan.LoanItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,14 +59,7 @@ fun LoanScreenContent(loans: List<Loan>, isLoading: Boolean, modifier: Modifier)
                     .padding(dimensionResource(id = R.dimen.default_screen_padding))
             ) {
 
-                SearchBarCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {""},
-                    hint = stringResource(
-                        id = R.string.search_loan
-                    )
-                )
+                SearchBarCustom(hint = stringResource(id = R.string.search_loan), list = loans)
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.default_header)))
 

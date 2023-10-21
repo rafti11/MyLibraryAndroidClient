@@ -1,16 +1,26 @@
 package com.example.mylibraryapp.data.repository
 
 import com.example.mylibraryapp.data.remote.LibraryAPI
+import com.example.mylibraryapp.data.remote.dto.AuthenticationResponseDTO
 import com.example.mylibraryapp.data.remote.dto.AuthorDTO
 import com.example.mylibraryapp.data.remote.dto.BookDTO
 import com.example.mylibraryapp.data.remote.dto.LoanDTO
 import com.example.mylibraryapp.domain.model.Author
+import com.example.mylibraryapp.domain.model.LoginRequest
 import com.example.mylibraryapp.domain.repository.MyLibraryRepository
 import javax.inject.Inject
 
 class MyLibraryRepositoryImpl @Inject constructor(
     private val api: LibraryAPI
 ) : MyLibraryRepository {
+
+    // ----- AUTHENTICATE -----
+
+    override suspend fun login(loginRequest: LoginRequest): AuthenticationResponseDTO {
+        return api.login(loginRequest)
+    }
+
+    // ----- AUTHENTICATE END -----
 
     // ----- BOOK -----
 

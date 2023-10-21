@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,8 +26,10 @@ import com.example.mylibraryapp.presentation.book.common.BookItem
 import com.example.mylibraryapp.presentation.book.common.TestGrid
 import com.example.mylibraryapp.presentation.book.listscreen.BookScreen
 import com.example.mylibraryapp.presentation.loan.listscreen.LoanScreen
+import com.example.mylibraryapp.presentation.login.LoginScreen
 import com.example.mylibraryapp.presentation.navigation.BottomBar
 import com.example.mylibraryapp.presentation.navigation.BottomNavigation
+import com.example.mylibraryapp.presentation.navigation.MainScreen
 import com.example.mylibraryapp.presentation.theme.MyLibraryAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -38,13 +42,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
-            val navController = rememberNavController()
 
-            Scaffold(
-                bottomBar = { BottomBar(navHostController = navController)}
-            ) {
-                BottomNavigation(navHostController = navController)
-            }
+            MainScreen()
 
 
             MyLibraryAppTheme {
@@ -61,6 +60,7 @@ class MainActivity : ComponentActivity() {
 ////                    TestGrid()
 ////                    BookScreen()
 //                    LoanScreen()
+//                    LoginScreen()
 //                }
 
 

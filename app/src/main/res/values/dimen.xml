@@ -6,4 +6,7 @@
     <dimen name="header_half">15dp</dimen>
     <dimen name="result_start_padding">8dp</dimen>
     <dimen name="item_start_padding">10dp</dimen>
+    <dimen name="small_spacer">5dp</dimen>
+    <dimen name="medium_spacer">10dp</dimen>
+    <dimen name="big_spacer">30dp</dimen>
 </resources>

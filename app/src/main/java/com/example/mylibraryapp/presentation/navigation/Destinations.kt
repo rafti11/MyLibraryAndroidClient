@@ -1,7 +1,10 @@
 package com.example.mylibraryapp.presentation.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Dehaze
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Feed
+import androidx.compose.material.icons.filled.LibraryBooks
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -11,19 +14,26 @@ sealed class Destinations (
     val route: String,
     val selectedIcon: ImageVector
 ) {
-    object BookD : Destinations(
-        name = "Book",
-        route = "book",
+
+    object Login : Destinations(
+        name = "Login",
+        route = "login",
         selectedIcon = Icons.Default.Place
     )
 
-    object LoanD : Destinations(
-        name = "Loan",
-        route = "loan",
-        selectedIcon = Icons.Default.Favorite
+    object Book : Destinations(
+        name = "Book",
+        route = "book",
+        selectedIcon = Icons.Default.LibraryBooks
     )
 
-    object SettingsD : Destinations(
+    object Loan : Destinations(
+        name = "Loan",
+        route = "loan",
+        selectedIcon = Icons.Default.Dehaze
+    )
+
+    object Settings : Destinations(
         name = "Settings",
         route = "settings",
         selectedIcon = Icons.Default.Settings

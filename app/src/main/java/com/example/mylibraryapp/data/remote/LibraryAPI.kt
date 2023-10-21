@@ -1,9 +1,11 @@
 package com.example.mylibraryapp.data.remote
 
+import com.example.mylibraryapp.data.remote.dto.AuthenticationResponseDTO
 import com.example.mylibraryapp.data.remote.dto.AuthorDTO
 import com.example.mylibraryapp.data.remote.dto.BookDTO
 import com.example.mylibraryapp.data.remote.dto.LoanDTO
 import com.example.mylibraryapp.domain.model.Author
+import com.example.mylibraryapp.domain.model.LoginRequest
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -12,6 +14,14 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface LibraryAPI {
+
+    // ----- AUTHENTICATE -----
+
+    @POST("auth/authenticate")
+    suspend fun login(@Body loginRequest: LoginRequest) : AuthenticationResponseDTO
+
+    // ----- AUTHENTICATE END -----
+
 
     // ----- BOOK -----
 

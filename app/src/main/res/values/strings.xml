@@ -13,6 +13,10 @@
     <string name="label_button_submit">Submit</string>
     <string name="label_results">results shown.</string>
 
+    <!-- Search bars -->
+    <string name="search_icon">Search Icon</string>
+    <string name="close_icon">Close Icon</string>
+
     <!-- Author -->
     <string name="search_author">Search Author</string>
     <string name="label_author_list">Author List</string>
@@ -29,4 +33,15 @@
     <string name="label_loan_date_out">Date Out:</string>
     <string name="label_loan_date_returned">Date Returned:</string>
     <!-- Loan END -->
+
+    <!-- Login -->
+    <string name="ft_email">Email</string>
+    <string name="ft_password">Password</string>
+    <string name="bt_login">Login</string>
+    <string name="company_name">My Library company</string>
+    <string name="email_icon">Email Icon</string>
+    <string name="password_icon">Password Icon</string>
+    <string name="p_visibility_icon">Visibility Icon</string>
+    <string name="login_logo">Company Logo</string>
+    <!-- Login END -->
 </resources>
