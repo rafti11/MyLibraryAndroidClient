@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,7 +20,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -41,15 +40,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.mylibraryapp.R
-import com.example.mylibraryapp.presentation.author.AuthorRegistrationEvent
-import com.example.mylibraryapp.presentation.navigation.Destinations
 
 @Composable
 fun LoginScreen(navHostController: NavHostController) {
@@ -65,6 +60,7 @@ fun LoginScreen(navHostController: NavHostController) {
         handleEvent = viewModel::handleEvent,
         navHostController = navHostController
     )
+
 }
 
 @Composable
@@ -79,19 +75,32 @@ fun LoginScreenContent(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        LoginForm(
-            loginState,
-            navHostController = navHostController,
-            onEmailChange = { email -> handleEvent(LoginEvent.EmailChanged(email)) },
-            onPasswordChange = { password -> handleEvent(LoginEvent.PasswordChanged(password)) },
-            onLogin = { handleEvent(LoginEvent.Login)},
-        )
+        if (loginState.isLoading) {
+            CircularProgressIndicator(color = Color.White)
+        } else {
+
+            LoginForm(
+                loginState,
+                navHostController = navHostController,
+                onEmailChange = { email -> handleEvent(LoginEvent.EmailChanged(email)) },
+                onPasswordChange = { password -> handleEvent(LoginEvent.PasswordChanged(password)) },
+                onLogin = { handleEvent(LoginEvent.Login(navHostController)) }
+            )
+
+        }
+
     }
 
 }
 
 @Composable
-fun LoginForm(loginState: LoginState, navHostController: NavHostController, onLogin: () -> Unit, onEmailChange: (email: String) -> Unit, onPasswordChange: (password: String) -> Unit) {
+fun LoginForm(
+    loginState: LoginState,
+    navHostController: NavHostController,
+    onEmailChange: (email: String) -> Unit,
+    onPasswordChange: (password: String) -> Unit,
+    onLogin: (navHostController: NavHostController) -> Unit
+) {
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -103,7 +112,7 @@ fun LoginForm(loginState: LoginState, navHostController: NavHostController, onLo
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            
+
             LogoAndName()
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_spacer)))
@@ -116,6 +125,8 @@ fun LoginForm(loginState: LoginState, navHostController: NavHostController, onLo
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.big_spacer)))
 
+            ErrorCredentials(loginState = loginState)
+
             EmailTextField(loginState = loginState, onEmailChange = onEmailChange)
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.small_spacer)))
@@ -123,16 +134,20 @@ fun LoginForm(loginState: LoginState, navHostController: NavHostController, onLo
             PasswordTextField(loginState = loginState, onPasswordChange = onPasswordChange)
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_spacer)))
-            
-            LoginButton(loginState = loginState, navHostController = navHostController, onLogin = onLogin)
-            
+
+            LoginButton(
+                loginState = loginState,
+                navHostController = navHostController,
+                onLogin = onLogin
+            )
+
         }
     }
 }
 
 @Composable
 fun LogoAndName() {
-    
+
     Icon(
         imageVector = Icons.Default.AssuredWorkload,
         contentDescription = stringResource(id = R.string.login_logo),
@@ -144,7 +159,7 @@ fun LogoAndName() {
         fontSize = 20.sp,
         fontWeight = FontWeight.SemiBold
     )
-    
+
 }
 
 @Composable
@@ -170,7 +185,7 @@ fun EmailTextField(loginState: LoginState, onEmailChange: (email: String) -> Uni
 @Composable
 fun PasswordTextField(loginState: LoginState, onPasswordChange: (password: String) -> Unit) {
 
-    var isPasswordHidden by rememberSaveable{mutableStateOf(true)}
+    var isPasswordHidden by rememberSaveable { mutableStateOf(true) }
 
     TextField(
         value = loginState.password,
@@ -179,42 +194,59 @@ fun PasswordTextField(loginState: LoginState, onPasswordChange: (password: Strin
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
         leadingIcon = {
-            Icon(imageVector = Icons.Default.Lock, contentDescription = stringResource(id = R.string.password_icon))
+            Icon(
+                imageVector = Icons.Default.Lock,
+                contentDescription = stringResource(id = R.string.password_icon)
+            )
         },
         trailingIcon = {
-            Icon(imageVector = if (isPasswordHidden) {
-                Icons.Default.Visibility
-            } else Icons.Default.VisibilityOff,
+            Icon(
+                imageVector = if (isPasswordHidden) {
+                    Icons.Default.Visibility
+                } else Icons.Default.VisibilityOff,
                 modifier = Modifier.clickable {
                     isPasswordHidden = !isPasswordHidden
-            }, contentDescription = stringResource(id = R.string.p_visibility_icon)
+                }, contentDescription = stringResource(id = R.string.p_visibility_icon)
             )
         },
         visualTransformation = if (isPasswordHidden) {
             PasswordVisualTransformation()
         } else VisualTransformation.None
     )
-    
+
 }
 
 @Composable
-fun LoginButton(loginState: LoginState, navHostController: NavHostController, onLogin: () -> Unit) {
+fun LoginButton(
+    loginState: LoginState,
+    navHostController: NavHostController,
+    onLogin: (navHostController: NavHostController) -> Unit
+) {
 
 
     Button(
         onClick = {
-//            handleEvent(LoginEvent.Login)
-            onLogin()
-//            val st = loginState.isLoginAllowed
-//            if (st) {
-//                navHostController.navigate(Destinations.Book.route)
-//            }
-
-                  },
+            onLogin(navHostController)
+        },
         enabled = (loginState.email.isNotEmpty() && loginState.password.isNotEmpty())
     ) {
         Text(text = stringResource(id = R.string.bt_login))
     }
 
+}
+
+
+@Composable
+fun ErrorCredentials(loginState: LoginState) {
+
+    val isVisible = loginState.error?.contains("403") ?: false
+
+    if (isVisible) {
+        Text(
+            text = stringResource(id = R.string.error_token),
+            color = Color.Red,
+            fontSize = 18.sp
+        )
+    }
 
 }

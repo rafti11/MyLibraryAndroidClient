@@ -43,5 +43,6 @@
     <string name="password_icon">Password Icon</string>
     <string name="p_visibility_icon">Visibility Icon</string>
     <string name="login_logo">Company Logo</string>
+    <string name="error_token">Email or password are not valid</string>
     <!-- Login END -->
 </resources>

@@ -4,12 +4,15 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.example.mylibraryapp.common.Resource
 import com.example.mylibraryapp.common.Tags
+import com.example.mylibraryapp.common.Tools
 import com.example.mylibraryapp.data.SharedPreferencesManager
 import com.example.mylibraryapp.data.remote.dto.toAuthenticationResponse
 import com.example.mylibraryapp.domain.model.LoginRequest
 import com.example.mylibraryapp.domain.usecase.login.GetTokenUseCase
+import com.example.mylibraryapp.presentation.navigation.Destinations
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -34,8 +37,8 @@ class LoginViewModel @Inject constructor(
                 updatePassword(loginEvent.password)
             }
             is LoginEvent.Login -> {
-//                login()
-                login2()
+                login(loginEvent.navHostController)
+//                login3()
             }
         }
     }
@@ -48,13 +51,15 @@ class LoginViewModel @Inject constructor(
         _state.value = _state.value.copy(password = password)
     }
 
-    private fun login2() {
-        _state.value = _state.value.copy(isLoginAllowed = true)
+//    private fun login3() {
+//
+//        val token = sharedPreferencesManager.get(Tags.TOKEN)
+//        println(token)
+//        println("isvalid: ${Tools.isTokenValid(token)}")
+//
+//    }
 
-    }
-
-    private fun login() {
-
+    private fun login(navHostController: NavHostController) {
 
         val email = _state.value.email
         val password = _state.value.password
@@ -68,8 +73,8 @@ class LoginViewModel @Inject constructor(
                 is Resource.Loading -> {
                     println("Loading LoginViewModel")
                     _state.value = LoginState(isLoading = true)
-                    // Todo: Later remove this.
-//                    delay(5000)
+                    // Todo: Later remove this. Only for testing
+//                    delay(2000)
                 }
                 is Resource.Success -> {
                     println("Success LoginViewModel")
@@ -79,16 +84,16 @@ class LoginViewModel @Inject constructor(
                         val auth = resource.data.toAuthenticationResponse()
                         _state.value = LoginState(authenticationResponse = auth)
 
-                        if (auth.token.isNotEmpty()) {
+                        if (auth.token.isNotEmpty() && Tools.isTokenValid(auth.token)) {
                             sharedPreferencesManager.save(Tags.TOKEN, auth.token)
 
-                            println("token: ${sharedPreferencesManager.get(Tags.TOKEN)}")
+//                            println("token: ${sharedPreferencesManager.get(Tags.TOKEN)}")
+
+                            navHostController.navigate(Destinations.Book.route)
                         }
 
                     }
-//                    _state.value = LoginState(authenticationResponse = resource.data?.toAuthenticationResponse() ?: AuthenticationResponse(""))
 
-//                    println("token: ${state.value.authenticationResponse?.token}")
                 }
                 is Resource.Error -> {
                     println("Error LoginViewModel")
@@ -100,6 +105,6 @@ class LoginViewModel @Inject constructor(
 
         }.launchIn(viewModelScope)
 
-
     }
+
 }

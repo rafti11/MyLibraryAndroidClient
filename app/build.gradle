@@ -96,7 +96,12 @@ dependencies {
     implementation "androidx.compose.material3:material3:1.1.2"
     implementation "androidx.compose.material:material-icons-extended:1.5.3"
 
+    // New shared preferences
     def preferences_version = "1.0.0"
     implementation "androidx.datastore:datastore-preferences:$preferences_version"
+
+    // Check jwt token
+    def jwt_version = "4.4.0"
+    implementation "com.auth0:java-jwt:$jwt_version"
 
 }
