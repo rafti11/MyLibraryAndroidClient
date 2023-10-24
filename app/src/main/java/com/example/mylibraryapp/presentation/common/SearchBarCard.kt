@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.mylibraryapp.R
+import com.example.mylibraryapp.common.Tags
 import com.example.mylibraryapp.domain.model.Book
 import com.example.mylibraryapp.domain.model.Loan
 import com.example.mylibraryapp.presentation.book.common.BookImage
@@ -81,6 +82,8 @@ fun SearchBarCustom(hint: String, list: List<Any>) {
     var query by rememberSaveable { mutableStateOf("") }
     var active by rememberSaveable { mutableStateOf(false) }
 
+    println("aqui")
+    println(list)
     SearchBar(
         query = query,
         onQueryChange = {query = it},
@@ -161,7 +164,7 @@ fun DataBookRow(book: Book) {
     Row(verticalAlignment = Alignment.CenterVertically) {
 
         AsyncImage(
-            model = "http://10.10.2.9/images/${book.isbn}.jpg",
+            model = "${Tags.IMAGEN_URL}${book.isbn}.jpg",
             contentDescription = "Book cover",
             contentScale = ContentScale.Fit,
             modifier = Modifier

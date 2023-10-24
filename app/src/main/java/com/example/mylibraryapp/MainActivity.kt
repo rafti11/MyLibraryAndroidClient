@@ -22,8 +22,6 @@ import com.example.mylibraryapp.di.AppModule
 import com.example.mylibraryapp.domain.usecase.author.GetAllAuthorsUseCase
 import com.example.mylibraryapp.presentation.author.listscreen.AuthorListViewModel
 import com.example.mylibraryapp.presentation.author.listscreen.NewAuthorScreen
-import com.example.mylibraryapp.presentation.book.common.BookItem
-import com.example.mylibraryapp.presentation.book.common.TestGrid
 import com.example.mylibraryapp.presentation.book.listscreen.BookScreen
 import com.example.mylibraryapp.presentation.loan.listscreen.LoanScreen
 import com.example.mylibraryapp.presentation.login.LoginScreen

@@ -4,16 +4,22 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mylibraryapp.common.Resource
+import com.example.mylibraryapp.data.remote.dto.toBook
+import com.example.mylibraryapp.domain.network.AuthResult
+import com.example.mylibraryapp.domain.repository.MyLibraryRepository
 import com.example.mylibraryapp.domain.usecase.book.GetAllBooksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BookListViewModel @Inject constructor(
-    private val getAllBooksUseCase: GetAllBooksUseCase
+    private val getAllBooksUseCase: GetAllBooksUseCase,
+    private val repository: MyLibraryRepository
 ) : ViewModel() {
 
     private var _state = mutableStateOf(BookListState())
@@ -26,28 +32,30 @@ class BookListViewModel @Inject constructor(
 
     private fun getAllBooks() {
 
-        getAllBooksUseCase().onEach { resource ->
+        viewModelScope.launch{
 
-            when(resource) {
+            _state.value = _state.value.copy(isLoading = true)
 
-                is Resource.Loading -> {
-                    println("Loading BookListViewModel")
-                    _state.value = BookListState(isLoading = true)
-                    // Todo: Later remove this.
-//                    delay(5000)
-                }
-                is Resource.Success -> {
-                    println("Success BookListViewModel")
-                    _state.value = BookListState(list = resource.data ?: emptyList())
-                }
-                is Resource.Error -> {
-                    println("Error BookListViewModel")
-                    _state.value = BookListState(error = resource.message)
-                }
+            val result = repository.getAllBooks()
 
+            when(result) {
+                is AuthResult.Authorized -> {
+                    val books = result.data?.map {
+                        it.toBook()
+                    }
+                    _state.value = _state.value.copy(list = books ?: emptyList())
+                }
+                is AuthResult.Unauthorized -> {
+                    _state.value = _state.value.copy(error = "Unauthorized")
+                }
+                is AuthResult.Error -> {
+                    _state.value = _state.value.copy(error = "error book")
+                }
             }
 
-        }.launchIn(viewModelScope)
+            _state.value = _state.value.copy(isLoading = false)
+
+        }
 
     }
 }

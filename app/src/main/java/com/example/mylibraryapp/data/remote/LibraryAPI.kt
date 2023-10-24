@@ -19,9 +19,6 @@ interface LibraryAPI {
 
     // ----- AUTHENTICATE -----
 
-//    @POST("auth/authenticate")
-//    suspend fun login(@Body loginRequest: LoginRequest) : AuthenticationResponseDTO
-
     @POST("auth/authenticate")
     suspend fun login(@Body loginRequest: LoginRequest) : AuthResult<AuthenticationResponseDTO>
 
@@ -34,7 +31,7 @@ interface LibraryAPI {
     // ----- BOOK -----
 
     @GET("book/all")
-    suspend fun getAllBooks() : List<BookDTO>
+    suspend fun getAllBooks(@Header("Authorization") token: String) : AuthResult<List<BookDTO>>
 
     // ----- BOOK END -----
 

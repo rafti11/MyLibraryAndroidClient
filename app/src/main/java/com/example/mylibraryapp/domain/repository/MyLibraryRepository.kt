@@ -19,7 +19,7 @@ interface MyLibraryRepository {
     // ----- AUTHENTICATE END -----
 
     // ----- BOOK -----
-    suspend fun getAllBooks() : List<BookDTO>
+    suspend fun getAllBooks() : AuthResult<List<BookDTO>>
 
     // ----- BOOK END -----
 

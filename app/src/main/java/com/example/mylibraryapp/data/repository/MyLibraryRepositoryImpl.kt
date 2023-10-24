@@ -37,8 +37,9 @@ class MyLibraryRepositoryImpl @Inject constructor(
 
     // ----- BOOK -----
 
-    override suspend fun getAllBooks(): List<BookDTO> {
-        return api.getAllBooks()
+    override suspend fun getAllBooks(): AuthResult<List<BookDTO>> {
+        val token = sharedPreferencesManager.get(Tags.TOKEN)
+        return api.getAllBooks(token = "Bearer $token")
     }
 
     // ----- BOOK END -----

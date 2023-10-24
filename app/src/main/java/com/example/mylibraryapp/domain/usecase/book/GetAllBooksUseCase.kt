@@ -16,19 +16,19 @@ class GetAllBooksUseCase @Inject constructor(
 
     operator fun invoke() : Flow<Resource<List<Book>>> = flow {
 
-        try {
-
-            emit(Resource.Loading())
-            val data = repository.getAllBooks()
-            val list = data.map { bookDTO ->
-                bookDTO.toBook()
-            }
-            emit(Resource.Success(data = list))
-
-        } catch (e: Exception) {
-
-            emit(Resource.Error(e.localizedMessage ?: "error GetAllBooksUseCase"))
-
-        }
+//        try {
+//
+//            emit(Resource.Loading())
+//            val data = repository.getAllBooks()
+//            val list = data.map { bookDTO ->
+//                bookDTO.toBook()
+//            }
+//            emit(Resource.Success(data = list))
+//
+//        } catch (e: Exception) {
+//
+//            emit(Resource.Error(e.localizedMessage ?: "error GetAllBooksUseCase"))
+//
+//        }
     }
 }
