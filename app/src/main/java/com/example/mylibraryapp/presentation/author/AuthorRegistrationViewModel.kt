@@ -34,19 +34,19 @@ class AuthorRegistrationViewModel : ViewModel() {
         println(name)
 
         val api = AppModule.provideLibraryAPI()
-        val repository = AppModule.provideMyLibraryRepository(api)
-
-        viewModelScope.launch {
-
-            if (name != null) {
-                repository.createAuthor(Author(id = null, name = name))
-            }
-
-
-
-
-
-        }
+//        val repository = AppModule.provideMyLibraryRepository(api)
+//
+//        viewModelScope.launch {
+//
+//            if (name != null) {
+//                repository.createAuthor(Author(id = null, name = name))
+//            }
+//
+//
+//
+//
+//
+//        }
 
     }
 }

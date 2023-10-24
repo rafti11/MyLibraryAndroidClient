@@ -4,29 +4,38 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavHostController
-import com.example.mylibraryapp.common.Resource
 import com.example.mylibraryapp.common.Tags
-import com.example.mylibraryapp.common.Tools
 import com.example.mylibraryapp.data.SharedPreferencesManager
-import com.example.mylibraryapp.data.remote.dto.toAuthenticationResponse
+import com.example.mylibraryapp.data.remote.dto.AuthenticationResponseDTO
 import com.example.mylibraryapp.domain.model.LoginRequest
+import com.example.mylibraryapp.domain.network.AuthResult
+import com.example.mylibraryapp.domain.repository.MyLibraryRepository
 import com.example.mylibraryapp.domain.usecase.login.GetTokenUseCase
-import com.example.mylibraryapp.presentation.navigation.Destinations
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val getTokenUseCase: GetTokenUseCase,
-    private val sharedPreferencesManager: SharedPreferencesManager
+    private val sharedPreferencesManager: SharedPreferencesManager,
+    private val repository: MyLibraryRepository
 ) : ViewModel() {
 
     private var _state = mutableStateOf(LoginState())
     val state: State<LoginState> = _state
 
+    private val resultChannel = Channel<AuthResult<AuthenticationResponseDTO>>()
+    val authResult = resultChannel.receiveAsFlow()
+
+    private val resultChannel2 = Channel<AuthResult<Unit>>()
+    val authResult2 = resultChannel2.receiveAsFlow()
+
+    init {
+        isTokenValid()
+    }
 
     fun handleEvent(loginEvent: LoginEvent) {
         when(loginEvent) {
@@ -37,7 +46,7 @@ class LoginViewModel @Inject constructor(
                 updatePassword(loginEvent.password)
             }
             is LoginEvent.Login -> {
-                login(loginEvent.navHostController)
+                login()
 //                login3()
             }
         }
@@ -51,59 +60,76 @@ class LoginViewModel @Inject constructor(
         _state.value = _state.value.copy(password = password)
     }
 
-//    private fun login3() {
-//
-//        val token = sharedPreferencesManager.get(Tags.TOKEN)
-//        println(token)
-//        println("isvalid: ${Tools.isTokenValid(token)}")
-//
-//    }
 
-    private fun login(navHostController: NavHostController) {
-
-        val email = _state.value.email
-        val password = _state.value.password
-        println(email)
-        println(password)
-
-        getTokenUseCase.invoke(LoginRequest(email, password)).onEach { resource ->
-
-            when(resource) {
-
-                is Resource.Loading -> {
-                    println("Loading LoginViewModel")
-                    _state.value = LoginState(isLoading = true)
-                    // Todo: Later remove this. Only for testing
-//                    delay(2000)
-                }
-                is Resource.Success -> {
-                    println("Success LoginViewModel")
+    private fun login() {
 
 
-                    if (resource.data != null) {
-                        val auth = resource.data.toAuthenticationResponse()
-                        _state.value = LoginState(authenticationResponse = auth)
 
-                        if (auth.token.isNotEmpty() && Tools.isTokenValid(auth.token)) {
-                            sharedPreferencesManager.save(Tags.TOKEN, auth.token)
+        viewModelScope.launch {
 
-//                            println("token: ${sharedPreferencesManager.get(Tags.TOKEN)}")
+            _state.value = _state.value.copy(isLoading = true)
 
-                            navHostController.navigate(Destinations.Book.route)
-                        }
+            val result = repository.login(LoginRequest(state.value.email, state.value.password))
 
-                    }
-
-                }
-                is Resource.Error -> {
-                    println("Error LoginViewModel")
-                    _state.value = LoginState(error = resource.message)
-                    println(state.value.error)
-                }
-
+            if (result.data != null) {
+                sharedPreferencesManager.save(Tags.TOKEN, result.data.token)
             }
 
-        }.launchIn(viewModelScope)
+            resultChannel.send(result)
+
+            _state.value = _state.value.copy(isLoading = false)
+        }
+
+
+//        viewModelScope.launch {
+//            _state.value = _state.value.copy(isLoading = true)
+//
+////            val result = repository.login(LoginRequest(state.value.email, state.value.password))
+////
+////            when(result) {
+////                is AuthResult.Authorized -> {
+////                    sharedPreferencesManager.save(Tags.TOKEN, result.data?.token ?: "")
+////                    println(result.data)
+////                }
+////                is AuthResult.Unauthorized -> {
+////                    println("Unauthorized")
+////                }
+////                is AuthResult.Error -> {
+////                    println("error result.data")
+////                }
+////            }
+////            println(result)
+////            val  result2 = repository.isTokenValid()
+////
+////            when(result2) {
+////                is AuthResult.Authorized -> {
+////                    println(result2.data)
+////                }
+////                is AuthResult.Unauthorized -> {
+////                    println("r2 Unauthorized")
+////                }
+////                is AuthResult.Error -> {
+////                    println("r2 error result.data")
+////                }
+////            }
+////            println(result2)
+//
+//
+//            _state.value = _state.value.copy(isLoading = false)
+//        }
+
+
+    }
+
+    private fun isTokenValid() {
+
+        viewModelScope.launch {
+            _state.value = _state.value.copy(isLoading = true)
+            val result = repository.isTokenValid()
+            resultChannel2.send(result)
+            _state.value = _state.value.copy(isLoading = false)
+
+        }
 
     }
 

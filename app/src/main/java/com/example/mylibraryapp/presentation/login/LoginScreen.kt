@@ -27,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -45,11 +46,51 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.mylibraryapp.R
+import com.example.mylibraryapp.domain.network.AuthResult
+import com.example.mylibraryapp.presentation.navigation.Destinations
 
 @Composable
 fun LoginScreen(navHostController: NavHostController) {
 
     val viewModel: LoginViewModel = hiltViewModel()
+
+    LaunchedEffect(viewModel) {
+
+        viewModel.authResult.collect{ result ->
+
+            when(result) {
+                is AuthResult.Authorized -> {
+                    navHostController.navigate(Destinations.Book.route)
+                }
+                is AuthResult.Unauthorized -> {
+                    println("Unauthorized")
+                }
+                is AuthResult.Error -> {
+                    println("error result.data")
+                }
+            }
+        }
+
+    }
+
+    LaunchedEffect(viewModel) {
+
+        viewModel.authResult2.collect{ result ->
+
+            when(result) {
+                is AuthResult.Authorized -> {
+                    navHostController.navigate(Destinations.Book.route)
+                }
+                is AuthResult.Unauthorized -> {
+                    println("Unauthorized")
+                }
+                is AuthResult.Error -> {
+                    println("error result.data")
+                }
+            }
+        }
+
+    }
 
     LoginScreenContent(
         modifier = Modifier
@@ -239,14 +280,14 @@ fun LoginButton(
 @Composable
 fun ErrorCredentials(loginState: LoginState) {
 
-    val isVisible = loginState.error?.contains("403") ?: false
-
-    if (isVisible) {
-        Text(
-            text = stringResource(id = R.string.error_token),
-            color = Color.Red,
-            fontSize = 18.sp
-        )
-    }
+//    val isVisible = loginState.error?.contains("401") ?: false
+//
+//    if (isVisible) {
+//        Text(
+//            text = stringResource(id = R.string.error_token),
+//            color = Color.Red,
+//            fontSize = 18.sp
+//        )
+//    }
 
 }

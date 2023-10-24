@@ -1,10 +1,10 @@
 package com.example.mylibraryapp.di
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.example.mylibraryapp.data.SharedPreferencesManager
 import com.example.mylibraryapp.data.remote.LibraryAPI
 import com.example.mylibraryapp.data.repository.MyLibraryRepositoryImpl
+import com.example.mylibraryapp.domain.network.AuthResultCallAdapterFactory
 import com.example.mylibraryapp.domain.repository.MyLibraryRepository
 import dagger.Module
 import dagger.Provides
@@ -25,15 +25,15 @@ object AppModule {
         return Retrofit.Builder()
             .baseUrl("http://10.10.2.12:8080/api/v1/")
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(AuthResultCallAdapterFactory())
             .build()
             .create(LibraryAPI::class.java)
     }
 
-
     @Provides
     @Singleton
-    fun provideMyLibraryRepository(api: LibraryAPI): MyLibraryRepository {
-        return MyLibraryRepositoryImpl(api)
+    fun provideMyLibraryRepository(api: LibraryAPI, sharedPreferencesManager: SharedPreferencesManager): MyLibraryRepository {
+        return MyLibraryRepositoryImpl(api, sharedPreferencesManager)
     }
 
     @Provides

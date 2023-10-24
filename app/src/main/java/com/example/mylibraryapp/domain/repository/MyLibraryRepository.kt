@@ -6,12 +6,15 @@ import com.example.mylibraryapp.data.remote.dto.BookDTO
 import com.example.mylibraryapp.data.remote.dto.LoanDTO
 import com.example.mylibraryapp.domain.model.Author
 import com.example.mylibraryapp.domain.model.LoginRequest
+import com.example.mylibraryapp.domain.network.AuthResult
 
 interface MyLibraryRepository {
 
     // ----- AUTHENTICATE -----
 
-    suspend fun login(loginRequest: LoginRequest) : AuthenticationResponseDTO
+    suspend fun login(loginRequest: LoginRequest) : AuthResult<AuthenticationResponseDTO>
+
+    suspend fun isTokenValid() : AuthResult<Unit>
 
     // ----- AUTHENTICATE END -----
 
