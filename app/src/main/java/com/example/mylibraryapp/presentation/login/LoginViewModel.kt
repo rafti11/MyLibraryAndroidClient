@@ -73,6 +73,7 @@ class LoginViewModel @Inject constructor(
 
             if (result.data != null) {
                 sharedPreferencesManager.save(Tags.TOKEN, result.data.token)
+                sharedPreferencesManager.save(Tags.USER_ID, result.data.userID)
             }
 
             resultChannel.send(result)

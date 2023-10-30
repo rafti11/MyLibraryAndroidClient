@@ -17,32 +17,32 @@ class GetTokenUseCase @Inject constructor(
     private val sharedPreferencesManager: SharedPreferencesManager
 ) {
 
-    operator fun invoke(loginRequest: LoginRequest) : Flow<Resource<AuthenticationResponseDTO>> = flow {
-
-        // TODO: Check this later, maybe could be deleted.
-        try {
-
-            emit(Resource.Loading())
-            val result = repository.login(loginRequest)
-
-            when(result) {
-                is AuthResult.Authorized -> {
-                    sharedPreferencesManager.save(Tags.TOKEN, result.data?.token ?: "")
-                    emit(Resource.Success(data = result.data ?: AuthenticationResponseDTO("")))
-                }
-                is AuthResult.Unauthorized -> {
-                    emit(Resource.Error(message = "Unauthorized"))
-                }
-                is AuthResult.Error -> {
-                    emit(Resource.Error(message = "Error found"))
-                }
-            }
-
-
-        } catch (e: Exception) {
-
-            emit(Resource.Error(e.localizedMessage ?: "error GetTokenUseCase"))
-
-        }
-    }
+//    operator fun invoke(loginRequest: LoginRequest) : Flow<Resource<AuthenticationResponseDTO>> = flow {
+//
+//        // TODO: Check this later, maybe could be deleted.
+//        try {
+//
+//            emit(Resource.Loading())
+//            val result = repository.login(loginRequest)
+//
+//            when(result) {
+//                is AuthResult.Authorized -> {
+//                    sharedPreferencesManager.save(Tags.TOKEN, result.data?.token ?: "")
+//                    emit(Resource.Success(data = result.data ?: AuthenticationResponseDTO("")))
+//                }
+//                is AuthResult.Unauthorized -> {
+//                    emit(Resource.Error(message = "Unauthorized"))
+//                }
+//                is AuthResult.Error -> {
+//                    emit(Resource.Error(message = "Error found"))
+//                }
+//            }
+//
+//
+//        } catch (e: Exception) {
+//
+//            emit(Resource.Error(e.localizedMessage ?: "error GetTokenUseCase"))
+//
+//        }
+//    }
 }

@@ -16,21 +16,21 @@ class GetAllLoansByClientIDUseCase @Inject constructor(
     private val repository: MyLibraryRepository
 ) {
 
-    operator fun invoke(id: Int) : Flow<Resource<List<Loan>>> = flow {
-
-        try {
-
-            emit(Resource.Loading())
-            val data = repository.getAllLoansByClientID(id)
-            val list = data.map { loanDTO ->
-                loanDTO.toLoan()
-            }
-            emit(Resource.Success(data = list))
-
-        } catch (e: Exception) {
-
-            emit(Resource.Error(e.localizedMessage ?: "error GetAllLoansByClientIDUseCase"))
-
-        }
-    }
+//    operator fun invoke(id: Int) : Flow<Resource<List<Loan>>> = flow {
+//
+//        try {
+//
+//            emit(Resource.Loading())
+//            val data = repository.getAllLoansByClientID(id)
+//            val list = data.map { loanDTO ->
+//                loanDTO.toLoan()
+//            }
+//            emit(Resource.Success(data = list))
+//
+//        } catch (e: Exception) {
+//
+//            emit(Resource.Error(e.localizedMessage ?: "error GetAllLoansByClientIDUseCase"))
+//
+//        }
+//    }
 }

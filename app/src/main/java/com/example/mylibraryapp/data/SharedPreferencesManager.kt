@@ -15,10 +15,23 @@ class SharedPreferencesManager(context: Context) {
 
     }
 
+    fun save(key: String, value: Int) {
+
+        val save = sharedPreferences.edit()
+        save.putInt(key, value)
+        save.apply()
+
+    }
+
     fun get(key: String) : String {
 
         return sharedPreferences.getString(key, "") ?: ""
 
     }
 
+    fun getInt(key: String) : Int {
+
+        return sharedPreferences.getInt(key, -1)
+
+    }
 }

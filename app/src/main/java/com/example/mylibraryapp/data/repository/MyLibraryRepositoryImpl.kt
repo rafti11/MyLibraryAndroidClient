@@ -46,8 +46,9 @@ class MyLibraryRepositoryImpl @Inject constructor(
 
 
     // ----- LOAN -----
-    override suspend fun getAllLoansByClientID(id: Int): List<LoanDTO> {
-        return api.getAllLoansByClientID(id)
+    override suspend fun getAllLoansByClientID(id: Int): AuthResult<List<LoanDTO>> {
+        val token = sharedPreferencesManager.get(Tags.TOKEN)
+        return api.getAllLoansByClientID(token= "Bearer $token", id = id)
     }
 
     // ----- LOAN END -----

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -45,54 +46,56 @@ fun LoanItem(loan: Loan, onClick: () -> Unit) {
     val dateOut = stringResource(id = R.string.label_loan_date_out)
     val dateReturned = stringResource(id = R.string.label_loan_date_returned)
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-
-        Column(
+    Card {
+        Row(
             modifier = Modifier
-                .weight(1f)
-                .padding(dimensionResource(id = R.dimen.item_start_padding))
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = loan.bookTitle,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Black,
-                modifier = Modifier.fillMaxWidth()
 
-            )
-            Divider(color = Color.Black)
-            Text(
-                text = dateOut + " ${loan.dateOut}",
-                fontSize = 18.sp,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Text(
-                text = dateReturned + " ${loan.dateReturned}",
-                fontSize = 18.sp,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
 
-        Column {
-            IconButton(
-                onClick = { onClick() }
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(dimensionResource(id = R.dimen.item_start_padding))
             ) {
-                Icon(
-                    painter = painterResource(
-                        id = R.drawable.arrow_forward
-                    ),
-                    contentDescription = null
+                Text(
+                    text = loan.bookTitle,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Black,
+                    modifier = Modifier.fillMaxWidth()
+
+                )
+                Divider(color = Color.Black)
+                Text(
+                    text = dateOut + " ${loan.dateOut}",
+                    fontSize = 18.sp,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Text(
+                    text = dateReturned + " ${loan.dateReturned}",
+                    fontSize = 18.sp,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
+
+            Column {
+                IconButton(
+                    onClick = { onClick() }
+                ) {
+                    Icon(
+                        painter = painterResource(
+                            id = R.drawable.arrow_forward
+                        ),
+                        contentDescription = null
+                    )
+                }
+            }
+
+
         }
-
-
     }
+
 }
 
 //@Preview

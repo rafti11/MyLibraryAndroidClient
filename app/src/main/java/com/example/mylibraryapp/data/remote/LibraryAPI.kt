@@ -22,7 +22,7 @@ interface LibraryAPI {
     @POST("auth/authenticate")
     suspend fun login(@Body loginRequest: LoginRequest) : AuthResult<AuthenticationResponseDTO>
 
-    @GET("istokenvalid")
+    @GET("auth/istokenvalid")
     suspend fun isTokenValid(@Header("Authorization") token: String) : AuthResult<Unit>
 
     // ----- AUTHENTICATE END -----
@@ -38,7 +38,7 @@ interface LibraryAPI {
     // ----- LOAN -----
 
     @GET("loan/client/{id}")
-    suspend fun getAllLoansByClientID(@Path("id") id: Int) : List<LoanDTO>
+    suspend fun getAllLoansByClientID(@Header("Authorization") token: String, @Path("id") id: Int) : AuthResult<List<LoanDTO>>
 
     // ----- LOAN END -----
 

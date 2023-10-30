@@ -25,7 +25,7 @@ interface MyLibraryRepository {
 
 
     // ----- LOAN -----
-    suspend fun getAllLoansByClientID(id: Int) : List<LoanDTO>
+    suspend fun getAllLoansByClientID(id: Int) : AuthResult<List<LoanDTO>>
 
     // ----- LOAN END -----
 
